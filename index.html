@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="apple-touch-icon" sizes="76x76" href="./LOGO-01.png">
+  <link rel="icon" type="image/png" href="./LOGO-01.png">
+  <title>
+    Aurify
+  </title>
+  <!-- Socket -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0px 400px;
+      font-family: "arial", Helvetica, sans-serif;
+      font-size: 24px;
+      /* background-image: url('./23473.jpg'); */
+      background-color: black;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-attachment: fixed;
+      /* Prevent background from scrolling */
+      -webkit-animation: 20s linear 0s normal none infinite animate;
+      -moz-animation: 20s linear 0s normal none infinite animate;
+      -ms-animation: 20s linear 0s normal none infinite animate;
+      -o-animation: 20s linear 0s normal none infinite animate;
+      animation: 20s linear 0s normal none infinite animate;
+      height: 100vh;
+      /* Adjusted to 100vh for full viewport height */
+      width: 100%;
+    }
+
+    .logo {
+      width: 350px;
+      margin-top: 50px;
+    }
+
+    .date-time {
+      color: #fff;
+      font-size: 30px;
+    }
+
+    .symbols {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      background-color: rgb(54, 54, 54);
+      width: 100%;
+      padding: 10px;
+      border-radius: 15px;
+      height: 60px;
+    }
+
+    .symbols .buy-sell-label {
+      display: flex;
+      flex-direction: row;
+    }
+
+    .symbols .buy-sell-label p {
+      color: #fff;
+      font-size: 25px;
+      font-weight: 600;
+    }
+
+    .data {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      background-color: #fff;
+      opacity: 80%;
+      width: 100%;
+      padding: 20px;
+      border-radius: 15px;
+      margin-top: 10px;
+    }
+
+    .data .label {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .data .label p {
+      font-size: 35px;
+      font-weight: 600;
+      color: black;
+    }
+
+    .data .buy-sell .input-box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 35px;
+      font-weight: 600;
+      padding: 15px;
+    }
+
+    .data .buy-sell label {
+      font-size: 25px;
+    }
+
+    /* table {
+      width: 100%;
+      margin: 30px 0px;
+    }
+
+    table thead tr {
+      background-color: rgb(54, 54, 54);
+    }
+
+    table thead tr th {
+      font-size: 22px;
+      color: #fff;
+      padding: 10px;
+    }
+
+    table tr {
+      background-color: #f9f9f9;
+    }
+
+    table tbody tr:nth-child(even) {
+      background-color: #e6e6e6;
+    }
+
+    table tbody tr td {
+      font-size: 22px;
+      font-weight: 600;
+      padding: 10px;
+      color: black;
+    } */
+
+    /* Extra small devices (phones, 600px and down) */
+    @media only screen and (max-width: 600px) {
+      body {
+        padding: 0px 10px;
+      }
+
+      .logo {
+        width: 80px;
+        margin-top: 10px;
+      }
+
+      .date-time {
+        font-size: 18px;
+      }
+
+      select {
+        padding: 5px;
+        font-size: 16px;
+        margin-bottom: 10px;
+        margin-top: 10px;
+        border-radius: 10px;
+      }
+
+      .symbols {
+        height: 40px;
+      }
+
+      .symbols .buy-sell-label .icon,
+      .symbols .buy-sell-label p {
+        font-size: 18px;
+      }
+
+      .symbols .buy-sell-label .icon {
+        margin-bottom: 6px;
+      }
+
+      .data {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        background-color: #fff;
+        opacity: 80%;
+        width: 100%;
+        padding: 10px;
+        border-radius: 15px;
+        margin-top: 10px;
+      }
+
+      .data .label p,
+      .data .label h5 {
+        font-size: 18px;
+        font-weight: 500;
+      }
+
+      .data .buy-sell .input-box {
+        font-size: 20px;
+        padding: 10px;
+      }
+
+      .data .buy-sell span {
+        font-size: 15px;
+      }
+
+      table {
+        width: 100%;
+        margin-top: 10px;
+        border-collapse: separate;
+        border-spacing: 0 10px;
+      }
+
+      table thead tr {
+        background-color: rgb(54, 54, 54);
+        border-radius: 10px;
+      }
+
+      table thead tr th {
+        font-size: 15px;
+        padding: 8px;
+        color: #fff;
+      }
+
+      table thead tr th:first-child {
+        border-top-left-radius: 15px;
+        border-bottom-left-radius: 15px;
+      }
+
+      table thead tr th:last-child {
+        border-top-right-radius: 15px;
+        border-bottom-right-radius: 15px;
+      }
+
+      table tbody tr {
+        background-color: #fff;
+        opacity: 80%;
+        margin-top: 15px;
+      }
+
+      table tbody tr td {
+        font-size: 12px;
+        font-weight: 500;
+        padding: 8px;
+      }
+
+      table tbody tr td:first-child {
+        border-top-left-radius: 15px;
+        border-bottom-left-radius: 15px;
+      }
+
+      table tbody tr td:last-child {
+        border-top-right-radius: 15px;
+        border-bottom-right-radius: 15px;
+      }
+    }
+
+    /* Small devices (portrait tablets and large phones, 600px and up) */
+    @media only screen and (min-width: 600px) {
+      body {
+        padding: 0px 20px;
+      }
+    }
+
+    /* Medium devices (landscape tablets, 768px and up) */
+    @media only screen and (min-width: 768px) {
+      body {
+        padding: 0px 50px;
+      }
+    }
+
+    /* Large devices (laptops/desktops, 992px and up) */
+    @media only screen and (min-width: 992px) {
+      body {
+        padding: 0px 100px;
+      }
+    }
+
+    /* Extra large devices (large laptops and desktops, 1200px and up) */
+    @media only screen and (min-width: 1200px) {
+      body {
+        padding: 0px 400px;
+      }
+    }
+  </style>
+</head>
+
+<body class="d-flex justify-content-center align-items-center">
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <div class="col-lg-12 d-flex justify-content-center">
+      <img class="logo" src="./icon.png" alt="">
+    </div>
+
+    <!-- Dropdown -->
+    <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+      <select id="type" onchange="updateSpreadValues()">
+        <option value="Wholesale" selected>Wholesale</option>
+        <option value="Retail">Retail</option>
+        <option value="Rate">Rate</option>
+        <option value="Investor">Investor</option>
+        <option value="Jewellery">Jewellery</option>
+      </select>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="d-flex justify-content-center mt-2">
+      <div id="navbar">
+        <ul class="navbar-nav  ">
+          <li class="nav-item d-flex align-items-center">
+            <div class="btn btn-outline btn-sm" target="_blank"><span id='time' class="date-time"></span></div>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <!-- End Navbar -->
+    <div class="container-fluid pt-0 mt-3">
+      <div class="row">
+        <div class="symbols">
+          <div></div>
+          <div class="buy-sell-label">
+            <p>BUY</p>
+            <div>
+              <i class="fa-solid fa-dollar-sign icon" style="color: #fff;"></i>
+            </div>
+          </div>
+          <div class="buy-sell-label">
+            <p>SELL</p>
+            <div>
+              <i class="fa-solid fa-dollar-sign icon" style="color: #fff;"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- GOLD -->
+        <div class="data">
+          <div class="label">
+            <p>Gold</p>
+            <h5 style="color: black;">oz</h5>
+          </div>
+          <div class="buy-sell">
+            <div class="form-control input-box" id="goldInputLow"></div>
+            <div>
+              <i class="fa-solid fa-caret-down icon" style="color: red;"></i>
+              <span id="lowLabelGold">2503.22</span>
+            </div>
+          </div>
+          <div class="buy-sell">
+            <div class="form-control input-box" id="goldInputHigh"></div>
+            <div>
+              <i class="fa-solid fa-caret-up icon" style="color: green;"></i>
+              <span id="highLabelGold">2528.96</span>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- silver -->
+        <div class="data">
+          <div class=" label">
+            <p>Silver</p>
+            <h5 style="color: black;">oz</h5>
+          </div>
+          <div class="buy-sell">
+            <div class="form-control input-box" id="silverInputLow"></div>
+            <div>
+              <i class="fa-solid fa-caret-down icon" style="color: red;"></i>
+              <span id="lowLabelSilver">29.341</span>
+            </div>
+          </div>
+          <div class="buy-sell">
+            <div class="form-control input-box" id="silverInputHigh"></div>
+            <div>
+              <i class="fa-solid fa-caret-up icon" style="color: green;"></i>
+              <span id="highLabelSilver">30.093</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Table -->
+        <!-- <table class=" ml-1 mt-3">
+          <thead style="margin-bottom: 0px;" class="col-md-12">
+            <tr class="col-md-12" style="font-size: 12px;">
+              <th class="col-md-3" colspan="2">COMMODITY</th>
+              <th class="col-md-3">UNIT</th>
+              <th class="col-md-3">BUY (<span id="currencySymbol">AED</span>)</th>
+              <th class="col-md-3">SELL (<span id="currencySymbol">AED</span>)</th>
+            </tr>
+            <tr style="height: 8px;background-color: transparent;"></tr>
+          </thead>
+
+          <tbody id="tableBodyTV">
+          </tbody>
+        </table> -->
+
+        <table>
+          <thead>
+            <tr>
+              <th class="col-md-3" colspan="2">COMMODITY</th>
+              <th class="col-md-3">UNIT</th>
+              <th class="col-md-3">BUY (<span>AED</span>)</th>
+              <th class="col-md-3">SELL (<span>AED</span>)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="text-align: right;">Gold</td>
+              <td style="text-align: left;">9999</td>
+              <td>1KG</td>
+              <td id="bid1"></td>
+              <td id="ask1"></td>
+            </tr>
+            <tr>
+              <td style="text-align: right;">Gold</td>
+              <td style="text-align: left;">999</td>
+              <td>1TTB</td>
+              <td id="bid2"></td>
+              <td id="ask2"></td>
+            </tr>
+            <tr>
+              <td style="text-align: right;">Gold</td>
+              <td style="text-align: left;">995</td>
+              <td>1KG</td>
+              <td id="bid3"></td>
+              <td id="ask3"></td>
+            </tr>
+            <tr>
+              <td style="text-align: right;">Gold</td>
+              <td style="text-align: left;">9999</td>
+              <td>1GM</td>
+              <td id="bid4"></td>
+              <td id="ask4"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+
+
+
+
+    </div>
+  </main>
+
+
+  <div class="rate-card" style="display: none;">
+    <div class="col-lg-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="gold-card">
+            <img src="./assets/img/gold.png" alt="">
+            <h3>Gold</h3>
+          </div>
+          <p id="goldRate"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="silver-card">
+            <img src="./assets/img/silver.png" alt="">
+            <h3>Silver</h3>
+          </div>
+          <p id="silverRate"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!--   Core JS Files   -->
+  <!-- <script src="https://unpkg.com/metaapi.cloud-sdk"></script>
+  <script src="../assets/js/core/popper.min.js"></script>
+  <script src="../assets/js/core/bootstrap.min.js"></script>
+  <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
+  <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+  <script src="../assets/js/plugins/chartjs.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database.js"></script>
+  <script type="module" defer src="./assets/js/core/aurifyview2.js"></script>
+  <script type="module" src="./config/db.js"></script>
+  <script type="module" src="./assets/js/core/dashboardDB.js"></script>
+  <script type="module" src="./assets/js/core/spotrateDB.js"></script>
+  <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script> -->
+
+  <script>
+    // Example spot rates data for each item
+    const spotRateData = {
+      Wholesale: { bid: -0.25, ask: 0.30 },
+      Retail: { bid: 0.30, ask: 0.55 },
+      Rate: { bid: -0.50, ask: 0.50 },
+      Investor: { bid: 0.35, ask: 0.65 },
+      Jewellery: { bid: -0.80, ask: 0.50 }
+    };
+
+    // Function to update the bid and ask values based on the selected item
+    function updateSpreadValues() {
+      const selectedType = document.getElementById("type").value;
+      const bidValue = spotRateData[selectedType].bid;
+      const askValue = spotRateData[selectedType].ask;
+
+      // Update the bid and ask elements
+      document.getElementById("goldInputLow").textContent = (2505.28 + bidValue).toFixed(2);
+      document.getElementById("goldInputHigh").textContent = (2507.66 + askValue).toFixed(2);
+      document.getElementById("silverInputLow").textContent = (29.60 + bidValue).toFixed(3);
+      document.getElementById("silverInputHigh").textContent = (30.40 + askValue).toFixed(3);
+
+      // Table Values
+      document.getElementById("bid1").textContent = (296334 + bidValue).toFixed(2);
+      document.getElementById("ask1").textContent = (296453 + askValue).toFixed(2);
+      document.getElementById("bid2").textContent = (34533 + bidValue).toFixed(3);
+      document.getElementById("ask2").textContent = (34547 + askValue).toFixed(3);
+      document.getElementById("bid3").textContent = (294883 + bidValue).toFixed(2);
+      document.getElementById("ask3").textContent = (295000 + askValue).toFixed(2);
+      document.getElementById("bid4").textContent = (296.34 + bidValue).toFixed(3);
+      document.getElementById("ask4").textContent = (296.45 + askValue).toFixed(3);
+    }
+
+    // Initialize with the default selected value (Wholesale)
+    window.onload = function () {
+      updateSpreadValues();
+    };
+  </script>
+
+  <script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+      var options = {
+        damping: '0.5'
+      }
+      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+  </script>
+  <!-- Github buttons -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="../assets/js/soft-ui-dashboard.min.js?v=1.0.7"></script>
+  <!-- Date & Time -->
+  <script>
+    `use strict`;
+    function refreshTime() {
+      const timeDisplay = document.getElementById("time");
+      const dateString = new Date().toLocaleString();
+      const formattedString = dateString.replace(", ", " - ");
+      timeDisplay.textContent = formattedString;
+    }
+    setInterval(refreshTime, 1000);
+
+  </script>
+
+</body>
+
+</html>
